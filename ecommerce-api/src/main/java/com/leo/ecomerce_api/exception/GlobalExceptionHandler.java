@@ -5,6 +5,7 @@ import io.jsonwebtoken.security.PublicJwkBuilder;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,6 +45,14 @@ public class GlobalExceptionHandler {
 
         error.put("erros", campos);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Map<String, Object>> handlerDataIntegrityViolationException(DataIntegrityViolationException e) {
+        Map<String, Object> error = new HashMap<>();
+        error.put("status", 409);
+        error.put("mensagem", "E-mail já cadastrado.");
+        error.put("timestamp", LocalDateTime.now().toString());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
     }
 
     @ExceptionHandler(RuntimeException.class)
