@@ -1,6 +1,6 @@
 package com.leo.ecomerce_api.dto;
 
-
+import org.springframework.transaction.annotation.Transactional;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
@@ -14,5 +14,5 @@ public class PedidoDto {
     private Long usuarioId;
 
     @NotEmpty(message = "Pedido deve ter pelo menos um produto")
-    private List<Long> produtosIds;
+    private List<PedidoItemDto> itens;
 }

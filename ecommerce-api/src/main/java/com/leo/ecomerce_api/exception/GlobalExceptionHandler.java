@@ -63,4 +63,28 @@ public class GlobalExceptionHandler {
         error.put("Timestamp", LocalDateTime.now().toString());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
+
+    @ExceptionHandler(EstoqueInsuficienteException.class)
+    public ResponseEntity<Map<String, Object>> handlerEstoqueInsuficiente(EstoqueInsuficienteException e) {
+
+        Map<String, Object> error  = new HashMap<>();
+
+        error.put("status", 409);
+        error.put("mensagem", e.getMessage());
+        error.put("timestamp", LocalDateTime.now().toString());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(error);
+    }
+
+    @ExceptionHandler(ProdutoNaoENcontradoException.class)
+    public ResponseEntity<Map<String, Object>> handlerProdutoNaoENcontrado(ProdutoNaoENcontradoException e) {
+
+        Map<String, Object> error  = new HashMap<>();
+
+        error.put("status", 404);
+        error.put("mensagem", e.getMessage());
+        error.put("timestamp", LocalDateTime.now().toString());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
 }
